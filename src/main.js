@@ -9,6 +9,9 @@ console.log(formEl);
 const galleryEl = document.querySelector('.js-gallery-elem');
 const lightGallary = document.querySelector('.gallery');
 // console.log(lightGallary);
+const loaderEl = document.querySelector('.loader');
+
+hideLoader();
  
 const lightbox = new SimpleLightbox('.gallery a', {
         captionDelay: 250,
@@ -18,10 +21,11 @@ formEl.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
     e.preventDefault();
+    showLoader();
 
     const value = formEl.elements.query.value;
     getPhotoBySearch(value).then(data => renderImages(data.hits)).catch(error => renderError())
-   
+    
     formEl.reset();
     
     
@@ -67,7 +71,8 @@ function renderImages(array) {
       </a>
     </div>`}).join('');   
     galleryEl.innerHTML = markup;
-
+    // galleryEl.insertAdjacentHTML('beforeend', markup);
+hideLoader();
     lightbox.refresh();
       
 };
@@ -85,13 +90,13 @@ function renderError() {
 };
 
 
-// function showLoader() {
-//   loaderEl.style.display = 'block';
-// }
+function showLoader() {
+  loaderEl.style.display = 'block';
+}
 
-// function hideLoader() {
-//   loaderEl.style.display = 'none';
-// }
+function hideLoader() {
+  loaderEl.style.display = 'none';
+}
 
 
 
