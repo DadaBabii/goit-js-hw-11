@@ -5,10 +5,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 const formEl = document.querySelector('form');
-console.log(formEl);
 const galleryEl = document.querySelector('.js-gallery-elem');
-const lightGallary = document.querySelector('.gallery');
-// console.log(lightGallary);
 const loaderEl = document.querySelector('.loader');
 
 hideLoader();
@@ -38,10 +35,11 @@ function getPhotoBySearch(searchValue) {
     const KEY = '?key=42153847-0f7baac2d7b2e92d7ce6bbe8e';
     const Query = `&q=${searchValue}`;
     const params = '&image_type=photo&orientation=horizontal&safesearch=true&per_page=20';
-    
+  
+
     const url = BASE_URL + KEY + Query + params;
 
-    // return fetch(url).then((res) => res.json()).catch((error) => console.log(error));
+    
     return fetch(url).then((res) => {
         const arr = res.json();
         console.log(arr);
@@ -60,7 +58,7 @@ function getPhotoBySearch(searchValue) {
 
 function renderImages(array) {
     const markup = array.map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => { return` <div class="gallery">
-    <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" title="${tags}" width = "360px"
+    <a href="${largeImageURL}"><div class="thumb"><img src="${webformatURL}" alt="${tags}" title="${tags}" width = "360px"
       height = "300px"/>
        <ul class="info-cards-container">
       <li class="info-cards-elements">likes<span>${likes}</span></li>
@@ -68,6 +66,7 @@ function renderImages(array) {
        <li class="info-cards-elements">comments<span>${comments}</span></li>
        <li class="info-cards-elements">downloads<span>${downloads}</span></li>
      </ul>
+     </div>
       </a>
     </div>`}).join('');   
     galleryEl.innerHTML = markup;
@@ -100,38 +99,3 @@ function hideLoader() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-// function imageTemplate({ largeImageURL, webformatURL, tags, likes, views, comments,downloads}) {
-//   return ` <div class="gallery">
-//     <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" title="${tags}" width = "360px"
-//       height = "300px"/>
-//        <ul class="info-cards-container">
-//       <li class="info-cards-elements">likes<span>${likes}</span></li>
-//       <li class="info-cards-elements">views<span>${views}</span></li>
-//        <li class="info-cards-elements">comments<span>${comments}</span></li>
-//        <li class="info-cards-elements">downloads<span>${downloads}</span></li>
-//      </ul>
-//       </a>
-//     </div>`   
-// }
-
-// function imagesTemplate(array) {
-//     return array.map(imageTemplate).join('');
-      
-// }
-
-// function renderImages(array) {
-//     const markup = imagesTemplate(array);
-//     galleryEl.insertAdjacentHTML('beforeend', markup);
-    
-    
-// };
