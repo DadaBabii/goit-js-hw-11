@@ -45,7 +45,6 @@ function getPhotoBySearch(searchValue) {
     
     return fetch(url).then((res) => {
         const arr = res.json();
-        console.log(arr);
         return arr;
     })
         .then((array) => {
