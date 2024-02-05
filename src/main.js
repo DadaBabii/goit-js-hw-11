@@ -21,9 +21,12 @@ function onSubmit(e) {
     showLoader();
 
     const value = formEl.elements.query.value;
-    getPhotoBySearch(value).then(data => renderImages(data.hits)).catch(error => renderError())
+    getPhotoBySearch(value)
+        .then(data => renderImages(data.hits))
+        .catch(error => renderError(error))
+        .finally(() => formEl.reset());
     
-    formEl.reset();
+
     
     
 };
@@ -47,11 +50,13 @@ function getPhotoBySearch(searchValue) {
     })
         .then((array) => {
             if (array.total === 0) {
-                throw new Error(error);
+                throw new Error('Результатів не знайдено.');
             };
 
             return array;
-        });
+        })
+        .catch(error => console.log(error))
+        .finally(() => hideLoader());
   
 };
 
@@ -70,14 +75,14 @@ function renderImages(array) {
       </a>
     </div>`}).join('');   
     galleryEl.innerHTML = markup;
-    // galleryEl.insertAdjacentHTML('beforeend', markup);
-hideLoader();
+    
+    // hideLoader();
     lightbox.refresh();
       
 };
 
 
-function renderError() {
+function renderError(error) {
     galleryEl.innerHTML = "";
     iziToast.show({
         message: `❌ "Sorry, there are no images matching your search query. Please try again!`,
